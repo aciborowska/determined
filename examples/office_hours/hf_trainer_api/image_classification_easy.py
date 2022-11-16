@@ -211,7 +211,7 @@ def parse_arguments():
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     return model_args, data_args, training_args
 
-def main(core_context, model_args, data_args, training_args):
+def main(model_args, data_args, training_args, det_callback):
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your Python/PyTorch versions.
     # send_example_telemetry("run_image_classification", model_args, data_args)
@@ -410,7 +410,6 @@ def main(core_context, model_args, data_args, training_args):
         data_collator=collate_fn,
     )
 
-    det_callback = DetCallback(core_context, training_args)
     trainer.add_callback(det_callback)
 
     # Training
@@ -452,4 +451,5 @@ if __name__ == "__main__":
     distributed = det.core.DistributedContext.from_torch_distributed()
 
     with det.core.init(distributed=distributed) as core_context:
-        main(core_context, model_args, data_args, training_args)
+        det_callback = DetCallback(core_context, training_args)
+        main(model_args, data_args, training_args, det_callback)
