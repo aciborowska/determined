@@ -1,0 +1,18 @@
+python image_classification.py \
+    --dataset_name food101 \
+    --output_dir ./food101_outputs/ \
+    --remove_unused_columns False \
+    --do_train \
+    --do_eval \
+    --max_steps 10000 \
+    --per_device_train_batch_size 16 \
+    --per_device_eval_batch_size 16 \
+    --logging_strategy steps \
+    --logging_steps 10 \
+    --evaluation_strategy steps \
+    --learning_rate 1e-4 \
+    --eval_steps 10 \
+    --save_total_limit 1 \
+    --seed 1337 \
+    --save_strategy steps \
+    --save_steps 50
